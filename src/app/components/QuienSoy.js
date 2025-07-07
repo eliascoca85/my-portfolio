@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
 export default function QuienSoy({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
+  const screenSize = useResponsive();
 
   useEffect(() => {
     setIsVisible(true);
@@ -47,27 +49,31 @@ export default function QuienSoy({ onBack }) {
       color: 'white',
       opacity: isVisible ? 1 : 0,
       transition: 'opacity 0.3s ease',
-      zIndex: 1000
+      zIndex: 1000,
+      padding: getResponsiveValue('15px', '25px', '40px', screenSize),
+      overflowY: 'auto'
     },
     mainGrid: {
       display: 'grid',
-      gridTemplateColumns: '1fr 2fr',
-      gap: '50px',
+      gridTemplateColumns: screenSize.isMobile ? '1fr' : '1fr 2fr',
+      gap: getResponsiveValue('25px', '35px', '50px', screenSize),
       maxWidth: '1200px',
-      padding: '0 40px',
-      alignItems: 'center'
+      padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
+      alignItems: 'center',
+      width: '100%'
     },
     profileSection: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: '30px'
+      gap: getResponsiveValue('20px', '25px', '30px', screenSize),
+      order: screenSize.isMobile ? 2 : 1
     },
     avatarContainer: {
       position: 'relative',
-      width: '300px',
-      height: '300px',
-      margin: '60px auto 0',
+      width: getResponsiveValue('200px', '250px', '300px', screenSize),
+      height: getResponsiveValue('200px', '250px', '300px', screenSize),
+      margin: getResponsiveValue('30px auto 0', '45px auto 0', '60px auto 0', screenSize),
       cursor: 'pointer'
     },
     avatarBackground: {
@@ -82,7 +88,7 @@ export default function QuienSoy({ onBack }) {
       inset: 0,
       background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
       borderRadius: '50%',
-      border: '3px solid rgba(255, 255, 255, 0.3)',
+      border: getResponsiveValue('2px solid rgba(255, 255, 255, 0.3)', '2.5px solid rgba(255, 255, 255, 0.3)', '3px solid rgba(255, 255, 255, 0.3)', screenSize),
       boxShadow: '0 0 30px rgba(255, 255, 255, 0.2)'
     },
     avatarImageContainer: {
@@ -96,9 +102,9 @@ export default function QuienSoy({ onBack }) {
       position: 'absolute',
       left: '50%',
       transform: 'translateX(-50%)',
-      top: '-60px',
-      width: '300px',
-      height: '360px',
+      top: getResponsiveValue('-48px', '-54px', '-60px', screenSize),
+      width: getResponsiveValue('240px', '270px', '300px', screenSize),
+      height: getResponsiveValue('288px', '324px', '360px', screenSize),
       objectFit: 'cover',
       objectPosition: 'top center',
       filter: 'grayscale(100%)'
@@ -107,26 +113,26 @@ export default function QuienSoy({ onBack }) {
       position: 'absolute',
       left: '50%',
       transform: 'translateX(-50%)',
-      top: '-60px',
-      width: '300px',
-      height: '120px',
+      top: getResponsiveValue('-48px', '-54px', '-60px', screenSize),
+      width: getResponsiveValue('240px', '270px', '300px', screenSize),
+      height: getResponsiveValue('96px', '108px', '120px', screenSize),
       overflow: 'visible',
       zIndex: 10
     },
     avatarImageTop: {
       width: '100%',
-      height: '360px',
+      height: getResponsiveValue('288px', '324px', '360px', screenSize),
       objectFit: 'cover',
       objectPosition: 'top center',
-      clipPath: 'ellipse(150px 60px at center 60px)',
+      clipPath: getResponsiveValue('ellipse(120px 48px at center 48px)', 'ellipse(135px 54px at center 54px)', 'ellipse(150px 60px at center 60px)', screenSize),
       filter: 'grayscale(100%)'
     },
     avatarRing: {
       position: 'absolute',
-      width: '320px',
-      height: '320px',
-      top: '-10px',
-      left: '-10px',
+      width: getResponsiveValue('216px', '266px', '320px', screenSize),
+      height: getResponsiveValue('216px', '266px', '320px', screenSize),
+      top: getResponsiveValue('-8px', '-8px', '-10px', screenSize),
+      left: getResponsiveValue('-8px', '-8px', '-10px', screenSize),
       border: '1px solid rgba(255, 255, 255, 0.2)',
       borderRadius: '50%',
       borderStyle: 'dashed',
@@ -135,43 +141,46 @@ export default function QuienSoy({ onBack }) {
     nameTag: {
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
-      borderRadius: '10px',
-      padding: '15px 25px',
+      borderRadius: getResponsiveValue('8px', '10px', '10px', screenSize),
+      padding: getResponsiveValue('12px 20px', '14px 22px', '15px 25px', screenSize),
       textAlign: 'center',
       backdropFilter: 'blur(10px)'
     },
     name: {
-      fontSize: '24px',
+      fontSize: getResponsiveValue('20px', '22px', '24px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '2px',
       marginBottom: '5px'
     },
     role: {
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       color: 'rgba(255, 255, 255, 0.7)',
       letterSpacing: '1px'
     },
     contentSection: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '20px',
+      gap: getResponsiveValue('15px', '18px', '20px', screenSize),
       position: 'relative',
-      zIndex: 5
+      zIndex: 5,
+      order: screenSize.isMobile ? 1 : 2
     },
     sectionSelector: {
       display: 'flex',
-      gap: '10px',
-      marginBottom: '30px',
+      gap: getResponsiveValue('8px', '10px', '12px', screenSize),
+      marginBottom: getResponsiveValue('20px', '25px', '30px', screenSize),
       position: 'relative',
-      zIndex: 10
+      zIndex: 10,
+      flexWrap: screenSize.isMobile ? 'wrap' : 'nowrap',
+      justifyContent: screenSize.isMobile ? 'center' : 'flex-start'
     },
     selectorButton: {
-      padding: '10px 20px',
+      padding: getResponsiveValue('8px 16px', '10px 18px', '10px 20px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
-      borderRadius: '20px',
+      borderRadius: getResponsiveValue('15px', '18px', '20px', screenSize),
       color: 'white',
-      fontSize: '12px',
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px',
       cursor: 'pointer',
@@ -191,22 +200,22 @@ export default function QuienSoy({ onBack }) {
     infoPanel: {
       background: 'rgba(0, 0, 0, 0.9)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
-      borderRadius: '15px',
-      padding: '30px',
+      borderRadius: getResponsiveValue('12px', '14px', '15px', screenSize),
+      padding: getResponsiveValue('20px', '25px', '30px', screenSize),
       backdropFilter: 'blur(10px)',
-      minHeight: '200px',
+      minHeight: getResponsiveValue('150px', '175px', '200px', screenSize),
       transition: 'all 0.2s ease'
     },
     sectionTitle: {
-      fontSize: '18px',
+      fontSize: getResponsiveValue('16px', '17px', '18px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '2px',
-      marginBottom: '20px',
+      marginBottom: getResponsiveValue('15px', '18px', '20px', screenSize),
       color: 'rgba(255, 255, 255, 0.9)',
       textTransform: 'uppercase'
     },
     sectionContent: {
-      fontSize: '16px',
+      fontSize: getResponsiveValue('14px', '15px', '16px', screenSize),
       lineHeight: '1.6',
       color: 'rgba(255, 255, 255, 0.8)',
       letterSpacing: '0.5px'
@@ -218,23 +227,23 @@ export default function QuienSoy({ onBack }) {
       width: '100%',
       height: '100%',
       backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.02) 1px, transparent 0)',
-      backgroundSize: '60px 60px',
+      backgroundSize: getResponsiveValue('40px 40px', '50px 50px', '60px 60px', screenSize),
       opacity: 0.3
     },
     backButton: {
       position: 'absolute',
-      top: '40px',
-      right: '40px',
+      top: getResponsiveValue('20px', '30px', '40px', screenSize),
+      right: getResponsiveValue('20px', '30px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
-      width: '50px',
-      height: '50px',
+      width: getResponsiveValue('40px', '45px', '50px', screenSize),
+      height: getResponsiveValue('40px', '45px', '50px', screenSize),
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       cursor: 'pointer',
-      fontSize: '20px',
+      fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
       backdropFilter: 'blur(10px)'
@@ -292,8 +301,8 @@ export default function QuienSoy({ onBack }) {
               <Image
                 src="/src/mauricio.png"
                 alt="Mauricio"
-                width={300}
-                height={360}
+                width={screenSize.isMobile ? 240 : screenSize.isTablet ? 270 : 300}
+                height={screenSize.isMobile ? 288 : screenSize.isTablet ? 324 : 360}
                 style={styles.avatarImage}
                 className="avatar-image"
                 priority
@@ -305,8 +314,8 @@ export default function QuienSoy({ onBack }) {
               <Image
                 src="/src/mauricio.png"
                 alt="Mauricio"
-                width={300}
-                height={360}
+                width={screenSize.isMobile ? 240 : screenSize.isTablet ? 270 : 300}
+                height={screenSize.isMobile ? 288 : screenSize.isTablet ? 324 : 360}
                 style={styles.avatarImageTop}
                 className="avatar-image"
                 priority

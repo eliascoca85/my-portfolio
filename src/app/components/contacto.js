@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
 export default function Contacto({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -11,6 +12,7 @@ export default function Contacto({ onBack }) {
     mensaje: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const screenSize = useResponsive();
 
   useEffect(() => {
     setIsVisible(true);
@@ -78,45 +80,48 @@ export default function Contacto({ onBack }) {
       color: 'white',
       opacity: isVisible ? 1 : 0,
       transition: 'opacity 0.5s ease',
-      zIndex: 1000
+      zIndex: 1000,
+      padding: getResponsiveValue('15px', '25px', '40px', screenSize),
+      overflowY: 'auto'
     },
     mainContent: {
       maxWidth: '1200px',
-      padding: '0 40px',
+      padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
       width: '100%'
     },
     header: {
       textAlign: 'center',
-      marginBottom: '40px'
+      marginBottom: getResponsiveValue('25px', '35px', '40px', screenSize)
     },
     title: {
-      fontSize: '32px',
+      fontSize: getResponsiveValue('24px', '28px', '32px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '3px',
+      letterSpacing: getResponsiveValue('2px', '2.5px', '3px', screenSize),
       marginBottom: '10px',
       textTransform: 'uppercase'
     },
     subtitle: {
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       color: 'rgba(255, 255, 255, 0.7)',
-      letterSpacing: '2px'
+      letterSpacing: getResponsiveValue('1px', '1.5px', '2px', screenSize)
     },
     contentGrid: {
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '40px',
+      gridTemplateColumns: screenSize.isMobile ? '1fr' : '1fr 1fr',
+      gap: getResponsiveValue('20px', '30px', '40px', screenSize),
       alignItems: 'start'
     },
     contactMethods: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '15px'
+      gap: getResponsiveValue('12px', '13px', '15px', screenSize),
+      order: screenSize.isMobile ? 2 : 1
     },
     methodCard: {
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '10px',
-      padding: '20px',
+      padding: getResponsiveValue('15px', '18px', '20px', screenSize),
       backdropFilter: 'blur(10px)',
       transition: 'background 0.2s ease',
       cursor: 'pointer',
@@ -126,13 +131,13 @@ export default function Contacto({ onBack }) {
     methodHeader: {
       display: 'flex',
       alignItems: 'center',
-      gap: '15px',
+      gap: getResponsiveValue('12px', '13px', '15px', screenSize),
       marginBottom: '8px'
     },
     methodIcon: {
-      fontSize: '20px',
-      width: '40px',
-      height: '40px',
+      fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
+      width: getResponsiveValue('32px', '36px', '40px', screenSize),
+      height: getResponsiveValue('32px', '36px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
@@ -141,41 +146,42 @@ export default function Contacto({ onBack }) {
       justifyContent: 'center'
     },
     methodIconSvg: {
-      width: '20px',
-      height: '20px',
+      width: getResponsiveValue('16px', '18px', '20px', screenSize),
+      height: getResponsiveValue('16px', '18px', '20px', screenSize),
       filter: 'invert(1) brightness(0.9)'
     },
     methodLabel: {
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px'
     },
     methodValue: {
-      fontSize: '12px',
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
       color: 'rgba(255, 255, 255, 0.8)',
       letterSpacing: '0.5px',
-      marginLeft: '55px'
+      marginLeft: getResponsiveValue('44px', '49px', '55px', screenSize)
     },
     contactForm: {
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '15px',
-      padding: '30px',
-      backdropFilter: 'blur(10px)'
+      padding: getResponsiveValue('20px', '25px', '30px', screenSize),
+      backdropFilter: 'blur(10px)',
+      order: screenSize.isMobile ? 1 : 2
     },
     formTitle: {
-      fontSize: '18px',
+      fontSize: getResponsiveValue('16px', '17px', '18px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '2px',
-      marginBottom: '25px',
+      letterSpacing: getResponsiveValue('1.5px', '1.8px', '2px', screenSize),
+      marginBottom: getResponsiveValue('20px', '22px', '25px', screenSize),
       textAlign: 'center'
     },
     formGroup: {
-      marginBottom: '20px'
+      marginBottom: getResponsiveValue('15px', '17px', '20px', screenSize)
     },
     label: {
       display: 'block',
-      fontSize: '12px',
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px',
       marginBottom: '8px',
@@ -184,31 +190,31 @@ export default function Contacto({ onBack }) {
     },
     input: {
       width: '100%',
-      padding: '12px 15px',
+      padding: getResponsiveValue('10px 12px', '11px 13px', '12px 15px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '8px',
       color: 'white',
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       fontFamily: "'Courier New', 'Consolas', monospace",
       letterSpacing: '0.5px',
       outline: 'none',
       transition: 'border-color 0.2s ease'
     },
     textarea: {
-      minHeight: '100px',
+      minHeight: getResponsiveValue('80px', '90px', '100px', screenSize),
       resize: 'vertical'
     },
     submitButton: {
       width: '100%',
-      padding: '15px',
+      padding: getResponsiveValue('12px', '13px', '15px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '8px',
       color: 'white',
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '2px',
+      letterSpacing: getResponsiveValue('1.5px', '1.8px', '2px', screenSize),
       textTransform: 'uppercase',
       cursor: 'pointer',
       transition: 'background 0.2s ease',
@@ -222,18 +228,18 @@ export default function Contacto({ onBack }) {
     },
     backButton: {
       position: 'absolute',
-      top: '40px',
-      right: '40px',
+      top: getResponsiveValue('15px', '25px', '40px', screenSize),
+      right: getResponsiveValue('15px', '25px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
-      width: '50px',
-      height: '50px',
+      width: getResponsiveValue('40px', '45px', '50px', screenSize),
+      height: getResponsiveValue('40px', '45px', '50px', screenSize),
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       cursor: 'pointer',
-      fontSize: '20px',
+      fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
       backdropFilter: 'blur(10px)'

@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
 export default function Habilidades({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
+  const screenSize = useResponsive();
 
   useEffect(() => {
     setIsVisible(true);
@@ -57,107 +59,109 @@ export default function Habilidades({ onBack }) {
       color: 'white',
       opacity: isVisible ? 1 : 0,
       transition: 'opacity 0.5s ease',
-      zIndex: 1000
+      zIndex: 1000,
+      padding: getResponsiveValue('20px', '30px', '40px', screenSize),
+      overflowY: 'auto'
     },
     mainContent: {
       maxWidth: '1200px',
-      padding: '0 40px',
+      padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
       width: '100%'
     },
     header: {
       textAlign: 'center',
-      marginBottom: '40px'
+      marginBottom: getResponsiveValue('25px', '35px', '40px', screenSize)
     },
     title: {
-      fontSize: '32px',
+      fontSize: getResponsiveValue('24px', '28px', '32px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '3px',
+      letterSpacing: getResponsiveValue('2px', '2.5px', '3px', screenSize),
       marginBottom: '10px',
       textTransform: 'uppercase'
     },
     subtitle: {
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       color: 'rgba(255, 255, 255, 0.7)',
-      letterSpacing: '2px'
+      letterSpacing: getResponsiveValue('1px', '1.5px', '2px', screenSize)
     },
     categoriesContainer: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-      gap: '25px',
+      gridTemplateColumns: screenSize.isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
+      gap: getResponsiveValue('15px', '20px', '25px', screenSize),
       marginTop: '30px'
     },
     categoryCard: {
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '15px',
-      padding: '25px',
+      padding: getResponsiveValue('15px', '20px', '25px', screenSize),
       backdropFilter: 'blur(10px)',
       transition: 'background 0.2s ease'
     },
     categoryHeader: {
       display: 'flex',
       alignItems: 'center',
-      gap: '15px',
-      marginBottom: '20px'
+      gap: getResponsiveValue('10px', '12px', '15px', screenSize),
+      marginBottom: getResponsiveValue('15px', '18px', '20px', screenSize)
     },
     categoryIcon: {
-      width: '40px',
-      height: '40px',
+      width: getResponsiveValue('32px', '36px', '40px', screenSize),
+      height: getResponsiveValue('32px', '36px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '8px'
+      padding: getResponsiveValue('6px', '7px', '8px', screenSize)
     },
     categoryIconImg: {
-      width: '24px',
-      height: '24px',
+      width: getResponsiveValue('18px', '20px', '24px', screenSize),
+      height: getResponsiveValue('18px', '20px', '24px', screenSize),
       filter: 'invert(1) brightness(0.9)'
     },
     categoryName: {
-      fontSize: '16px',
+      fontSize: getResponsiveValue('14px', '15px', '16px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px'
     },
     skillsList: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '12px'
+      gap: getResponsiveValue('8px', '10px', '12px', screenSize)
     },
     skillItem: {
       display: 'flex',
       alignItems: 'center',
-      gap: '12px',
-      padding: '10px 0',
+      gap: getResponsiveValue('8px', '10px', '12px', screenSize),
+      padding: getResponsiveValue('6px 0', '8px 0', '10px 0', screenSize),
       borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
     },
     skillIcon: {
-      width: '18px',
-      height: '18px',
+      width: getResponsiveValue('14px', '16px', '18px', screenSize),
+      height: getResponsiveValue('14px', '16px', '18px', screenSize),
       filter: 'invert(1) brightness(0.8)'
     },
     skillName: {
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '0.5px',
       color: 'rgba(255, 255, 255, 0.9)'
     },
     backButton: {
       position: 'absolute',
-      top: '40px',
-      right: '40px',
+      top: getResponsiveValue('15px', '25px', '40px', screenSize),
+      right: getResponsiveValue('15px', '25px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
-      width: '50px',
-      height: '50px',
+      width: getResponsiveValue('40px', '45px', '50px', screenSize),
+      height: getResponsiveValue('40px', '45px', '50px', screenSize),
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       cursor: 'pointer',
-      fontSize: '20px',
+      fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
       backdropFilter: 'blur(10px)'

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
 export default function Portafolio({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState(0);
+  const screenSize = useResponsive();
 
   useEffect(() => {
     setIsVisible(true);
@@ -78,51 +80,53 @@ export default function Portafolio({ onBack }) {
       color: 'white',
       opacity: isVisible ? 1 : 0,
       transition: 'opacity 0.3s ease',
-      zIndex: 1000
+      zIndex: 1000,
+      padding: getResponsiveValue('15px', '25px', '40px', screenSize),
+      overflowY: 'auto'
     },
     mainContent: {
       maxWidth: '1400px',
-      padding: '0 40px',
+      padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
       width: '100%',
-      height: '90vh',
+      height: screenSize.isMobile ? 'auto' : '90vh',
       display: 'flex',
       flexDirection: 'column'
     },
     header: {
       textAlign: 'center',
-      marginBottom: '30px'
+      marginBottom: getResponsiveValue('20px', '25px', '30px', screenSize)
     },
     title: {
-      fontSize: '32px',
+      fontSize: getResponsiveValue('24px', '28px', '32px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '3px',
+      letterSpacing: getResponsiveValue('2px', '2.5px', '3px', screenSize),
       marginBottom: '10px',
       textTransform: 'uppercase'
     },
     subtitle: {
-      fontSize: '14px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       color: 'rgba(255, 255, 255, 0.7)',
-      letterSpacing: '2px'
+      letterSpacing: getResponsiveValue('1px', '1.5px', '2px', screenSize)
     },
     projectsGrid: {
       display: 'grid',
-      gridTemplateColumns: '1fr 2fr',
-      gap: '25px',
-      flex: 1
+      gridTemplateColumns: screenSize.isMobile ? '1fr' : '1fr 2fr',
+      gap: getResponsiveValue('15px', '20px', '25px', screenSize),
+      flex: screenSize.isMobile ? 'none' : 1
     },
     projectsList: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '12px',
-      maxHeight: '600px',
-      overflowY: 'auto',
-      paddingRight: '8px'
+      gap: getResponsiveValue('8px', '10px', '12px', screenSize),
+      maxHeight: screenSize.isMobile ? 'none' : '600px',
+      overflowY: screenSize.isMobile ? 'visible' : 'auto',
+      paddingRight: screenSize.isMobile ? '0' : '8px'
     },
     projectCard: {
       background: 'rgba(0, 0, 0, 0.6)',
       border: '1px solid rgba(255, 255, 255, 0.2)',
       borderRadius: '10px',
-      padding: '18px',
+      padding: getResponsiveValue('12px', '15px', '18px', screenSize),
       cursor: 'pointer',
       transition: 'all 0.2s ease',
       backdropFilter: 'blur(10px)'
@@ -131,7 +135,7 @@ export default function Portafolio({ onBack }) {
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.5)',
       boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
-      transform: 'translateX(8px)'
+      transform: screenSize.isMobile ? 'none' : 'translateX(8px)'
     },
     projectHeader: {
       display: 'flex',
@@ -140,63 +144,64 @@ export default function Portafolio({ onBack }) {
       marginBottom: '8px'
     },
     projectTitle: {
-      fontSize: '15px',
+      fontSize: getResponsiveValue('13px', '14px', '15px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px'
     },
     projectYear: {
-      fontSize: '11px',
+      fontSize: getResponsiveValue('10px', '10px', '11px', screenSize),
       color: 'rgba(255, 255, 255, 0.6)',
-      fontFamily: 'monospace'
+      letterSpacing: '0.5px'
     },
     projectCategory: {
-      fontSize: '11px',
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
       color: 'rgba(255, 255, 255, 0.8)',
       letterSpacing: '0.5px',
-      marginBottom: '6px'
+      marginBottom: '8px'
     },
     projectStatus: {
-      display: 'inline-block',
-      padding: '3px 6px',
-      fontSize: '9px',
+      fontSize: getResponsiveValue('9px', '10px', '11px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '1px',
-      borderRadius: '8px',
-      marginTop: '8px'
+      letterSpacing: '0.5px',
+      padding: getResponsiveValue('3px 8px', '4px 10px', '5px 12px', screenSize),
+      borderRadius: '10px',
+      marginTop: '8px',
+      width: 'fit-content'
     },
     statusCompleted: {
-      background: 'rgba(255, 255, 255, 0.2)',
-      color: 'rgba(255, 255, 255, 0.9)'
+      background: 'rgba(0, 255, 0, 0.2)',
+      border: '1px solid rgba(0, 255, 0, 0.5)',
+      color: 'rgba(0, 255, 0, 0.9)'
     },
     statusInProgress: {
-      background: 'rgba(255, 255, 255, 0.1)',
-      color: 'rgba(255, 255, 255, 0.7)',
-      border: '1px solid rgba(255, 255, 255, 0.3)'
+      background: 'rgba(255, 165, 0, 0.2)',
+      border: '1px solid rgba(255, 165, 0, 0.5)',
+      color: 'rgba(255, 165, 0, 0.9)'
     },
     projectDetails: {
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '15px',
-      padding: '35px',
+      padding: getResponsiveValue('20px', '25px', '30px', screenSize),
       backdropFilter: 'blur(10px)',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center'
     },
     detailTitle: {
-      fontSize: '26px',
+      fontSize: getResponsiveValue('20px', '24px', '28px', screenSize),
       fontWeight: 'bold',
-      letterSpacing: '2px',
-      marginBottom: '8px'
+      letterSpacing: getResponsiveValue('1.5px', '2px', '2.5px', screenSize),
+      marginBottom: '10px'
     },
     detailCategory: {
-      fontSize: '15px',
+      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
       color: 'rgba(255, 255, 255, 0.7)',
       letterSpacing: '1px',
       marginBottom: '20px'
     },
     detailDescription: {
-      fontSize: '15px',
+      fontSize: getResponsiveValue('13px', '14px', '15px', screenSize),
       lineHeight: '1.6',
       color: 'rgba(255, 255, 255, 0.8)',
       marginBottom: '25px',
@@ -206,7 +211,7 @@ export default function Portafolio({ onBack }) {
       marginBottom: '20px'
     },
     techTitle: {
-      fontSize: '13px',
+      fontSize: getResponsiveValue('11px', '12px', '13px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px',
       marginBottom: '12px',
@@ -215,14 +220,14 @@ export default function Portafolio({ onBack }) {
     techTags: {
       display: 'flex',
       flexWrap: 'wrap',
-      gap: '8px'
+      gap: getResponsiveValue('6px', '7px', '8px', screenSize)
     },
     techTag: {
-      padding: '5px 10px',
+      padding: getResponsiveValue('4px 8px', '5px 9px', '6px 10px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '12px',
-      fontSize: '11px',
+      fontSize: getResponsiveValue('9px', '10px', '11px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '0.5px'
     },
@@ -230,13 +235,13 @@ export default function Portafolio({ onBack }) {
       display: 'inline-flex',
       alignItems: 'center',
       gap: '8px',
-      padding: '10px 15px',
+      padding: getResponsiveValue('8px 12px', '9px 14px', '10px 15px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '8px',
       color: 'white',
       textDecoration: 'none',
-      fontSize: '12px',
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
       fontWeight: 'bold',
       letterSpacing: '1px',
       transition: 'background 0.2s ease',
@@ -245,18 +250,18 @@ export default function Portafolio({ onBack }) {
     },
     backButton: {
       position: 'absolute',
-      top: '40px',
-      right: '40px',
+      top: getResponsiveValue('15px', '25px', '40px', screenSize),
+      right: getResponsiveValue('15px', '25px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
-      width: '50px',
-      height: '50px',
+      width: getResponsiveValue('40px', '45px', '50px', screenSize),
+      height: getResponsiveValue('40px', '45px', '50px', screenSize),
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       cursor: 'pointer',
-      fontSize: '20px',
+      fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
       backdropFilter: 'blur(10px)'

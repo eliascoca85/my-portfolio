@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
 export default function Nav({ activeSection, onSectionChange }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const screenSize = useResponsive();
   
   const sections = ['Contacto', 'Habilidades', 'Portafolio', '¿Quién Soy?'];
 
@@ -18,8 +20,8 @@ export default function Nav({ activeSection, onSectionChange }) {
   // Componente SVG - ¿Quién Soy? / Ojo retro futurista (optimizado)
   const PersonIcon = () => (
     <svg 
-      width="105" 
-      height="105" 
+      width={getResponsiveValue('80', '90', '105', screenSize)} 
+      height={getResponsiveValue('80', '90', '105', screenSize)}
       viewBox="0 0 80 80" 
       style={{ 
         position: 'absolute',
@@ -83,8 +85,8 @@ export default function Nav({ activeSection, onSectionChange }) {
   // Componente SVG - Habilidades / Chip procesador (optimizado)
   const SkillsIcon = () => (
     <svg 
-      width="105" 
-      height="105" 
+      width={getResponsiveValue('80', '90', '105', screenSize)} 
+      height={getResponsiveValue('80', '90', '105', screenSize)}
       viewBox="0 0 80 80" 
       style={{ 
         position: 'absolute',
@@ -154,8 +156,8 @@ export default function Nav({ activeSection, onSectionChange }) {
   // Componente SVG - Contacto / Radio comunicador (optimizado)
   const ContactIcon = () => (
     <svg 
-      width="105" 
-      height="105" 
+      width={getResponsiveValue('80', '90', '105', screenSize)} 
+      height={getResponsiveValue('80', '90', '105', screenSize)}
       viewBox="0 0 80 80" 
       style={{ 
         position: 'absolute',
@@ -224,8 +226,8 @@ export default function Nav({ activeSection, onSectionChange }) {
   // Componente de logo SVG - Portafolio/Maletín (optimizado)
   const PortfolioIcon = () => (
     <svg 
-      width="105" 
-      height="105" 
+      width={getResponsiveValue('80', '90', '105', screenSize)} 
+      height={getResponsiveValue('80', '90', '105', screenSize)}
       viewBox="0 0 80 80" 
       className="portfolio-icon"
       style={{ 
@@ -316,21 +318,24 @@ export default function Nav({ activeSection, onSectionChange }) {
       justifyContent: 'center',
       zIndex: 1000,
       fontFamily: "'Courier New', 'Consolas', monospace",
-      overflow: 'hidden'
+      overflow: 'hidden',
+      padding: getResponsiveValue('10px', '20px', '40px', screenSize)
     },
     navCore: {
       position: 'relative',
-      width: '200px',
-      height: '200px',
+      width: getResponsiveValue('150px', '180px', '200px', screenSize),
+      height: getResponsiveValue('150px', '180px', '200px', screenSize),
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       transition: 'all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)',
-      transform: isExpanded ? 'scale(1.5)' : 'scale(1)'
+      transform: isExpanded ? 
+        `scale(${getResponsiveValue('1.2', '1.3', '1.5', screenSize)})` : 
+        'scale(1)'
     },
     centralOrb: {
-      width: '60px',
-      height: '60px',
+      width: getResponsiveValue('40px', '50px', '60px', screenSize),
+      height: getResponsiveValue('40px', '50px', '60px', screenSize),
       background: 'radial-gradient(circle, #ffffff 0%, #f0f0f0 100%)',
       borderRadius: '50%',
       display: 'flex',
@@ -340,9 +345,9 @@ export default function Nav({ activeSection, onSectionChange }) {
       transition: 'all 0.4s ease',
       boxShadow: `
         0 0 0 2px rgba(255, 255, 255, 0.4),
-        0 8px 32px rgba(255, 255, 255, 0.15),
+        0 ${getResponsiveValue('4px', '6px', '8px', screenSize)} ${getResponsiveValue('16px', '24px', '32px', screenSize)} rgba(255, 255, 255, 0.15),
         inset 0 0 20px rgba(0, 0, 0, 0.1),
-        0 0 60px rgba(255, 255, 255, ${isExpanded ? '0.3' : '0.1'})
+        0 0 ${getResponsiveValue('40px', '50px', '60px', screenSize)} rgba(255, 255, 255, ${isExpanded ? '0.3' : '0.1'})
       `,
       position: 'relative',
       zIndex: 10,
@@ -350,8 +355,8 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     navRing: {
       position: 'absolute',
-      width: '300px',
-      height: '300px',
+      width: getResponsiveValue('200px', '250px', '300px', screenSize),
+      height: getResponsiveValue('200px', '250px', '300px', screenSize),
       border: '2px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
       transition: 'all 0.6s ease',
@@ -362,8 +367,8 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     navRingOuter: {
       position: 'absolute',
-      width: '400px',
-      height: '400px',
+      width: getResponsiveValue('280px', '340px', '400px', screenSize),
+      height: getResponsiveValue('280px', '340px', '400px', screenSize),
       border: '1px solid rgba(255, 255, 255, 0.15)',
       borderRadius: '50%',
       transition: 'all 0.8s ease',
@@ -376,7 +381,7 @@ export default function Nav({ activeSection, onSectionChange }) {
     radarSweepLine: {
       position: 'absolute',
       width: '2px',
-      height: '150px',
+      height: getResponsiveValue('100px', '125px', '150px', screenSize),
       background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, transparent 100%)',
       transformOrigin: 'bottom center',
       animation: isExpanded ? 'radarRotate 4s linear infinite' : 'none',
@@ -398,8 +403,8 @@ export default function Nav({ activeSection, onSectionChange }) {
       position: 'absolute',
       top: '50%',
       left: '50%',
-      width: '14px',
-      height: '14px',
+      width: getResponsiveValue('12px', '13px', '14px', screenSize),
+      height: getResponsiveValue('12px', '13px', '14px', screenSize),
       background: 'rgba(255, 255, 255, 0.3)',
       borderRadius: '50%',
       cursor: 'pointer',
@@ -422,20 +427,20 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     itemLabel: {
       position: 'absolute',
-      top: '35px',
+      top: getResponsiveValue('25px', '30px', '35px', screenSize),
       left: '50%',
       transform: 'translateX(-50%)',
       color: 'rgba(255, 255, 255, 0.9)',
-      fontSize: '10px',
+      fontSize: getResponsiveValue('8px', '9px', '10px', screenSize),
       fontWeight: 600,
-      letterSpacing: '2px',
+      letterSpacing: getResponsiveValue('1px', '1.5px', '2px', screenSize),
       textTransform: 'uppercase',
       opacity: 0,
       transition: 'all 0.3s ease',
       whiteSpace: 'nowrap',
       textShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
       background: 'rgba(0, 0, 0, 0.8)',
-      padding: '4px 8px',
+      padding: getResponsiveValue('3px 6px', '3px 7px', '4px 8px', screenSize),
       borderRadius: '10px',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       backdropFilter: 'blur(10px)'
@@ -449,7 +454,7 @@ export default function Nav({ activeSection, onSectionChange }) {
       backgroundImage: `
         radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.02) 1px, transparent 0)
       `,
-      backgroundSize: '60px 60px',
+      backgroundSize: getResponsiveValue('40px 40px', '50px 50px', '60px 60px', screenSize),
       opacity: 0.2
     },
     floatingElements: {
@@ -469,16 +474,16 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     peripheralUI: {
       position: 'absolute',
-      top: '40px',
-      right: '40px',
+      top: getResponsiveValue('20px', '30px', '40px', screenSize),
+      right: getResponsiveValue('20px', '30px', '40px', screenSize),
       display: 'flex',
       flexDirection: 'column',
-      gap: '25px',
+      gap: getResponsiveValue('15px', '20px', '25px', screenSize),
       opacity: 0.4,
       transition: 'all 0.4s ease'
     },
     uiElement: {
-      width: '60px',
+      width: getResponsiveValue('40px', '50px', '60px', screenSize),
       height: '2px',
       background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%)',
       position: 'relative',
@@ -486,12 +491,12 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     statusPanel: {
       position: 'absolute',
-      top: '40px',
-      left: '40px',
+      top: getResponsiveValue('20px', '30px', '40px', screenSize),
+      left: getResponsiveValue('20px', '30px', '40px', screenSize),
       background: 'rgba(0, 0, 0, 0.9)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '10px',
-      padding: '15px',
+      padding: getResponsiveValue('10px', '12px', '15px', screenSize),
       backdropFilter: 'blur(10px)',
       opacity: isExpanded ? 1 : 0,
       transition: 'all 0.5s ease',
@@ -499,27 +504,27 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     statusText: {
       color: 'rgba(255, 255, 255, 0.9)',
-      fontSize: '12px',
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
       fontFamily: 'monospace',
       letterSpacing: '1px',
       textTransform: 'uppercase'
     },
     bottomIndicator: {
       position: 'absolute',
-      bottom: '40px',
+      bottom: getResponsiveValue('20px', '30px', '40px', screenSize),
       left: '50%',
       transform: 'translateX(-50%)',
       display: 'flex',
-      gap: '12px',
+      gap: getResponsiveValue('8px', '10px', '12px', screenSize),
       background: 'rgba(0, 0, 0, 0.7)',
-      padding: '10px 20px',
+      padding: getResponsiveValue('8px 15px', '9px 17px', '10px 20px', screenSize),
       borderRadius: '20px',
       border: '1px solid rgba(255, 255, 255, 0.2)',
       backdropFilter: 'blur(15px)'
     },
     indicatorDot: {
-      width: '8px',
-      height: '8px',
+      width: getResponsiveValue('6px', '7px', '8px', screenSize),
+      height: getResponsiveValue('6px', '7px', '8px', screenSize),
       borderRadius: '50%',
       background: 'rgba(255, 255, 255, 0.3)',
       cursor: 'pointer',
@@ -533,8 +538,8 @@ export default function Nav({ activeSection, onSectionChange }) {
     },
     hologramEffect: {
       position: 'absolute',
-      width: '400px',
-      height: '400px',
+      width: getResponsiveValue('280px', '340px', '400px', screenSize),
+      height: getResponsiveValue('280px', '340px', '400px', screenSize),
       border: '1px solid rgba(255, 255, 255, 0.05)',
       borderRadius: '50%',
       opacity: isExpanded ? 0.1 : 0,
@@ -694,11 +699,12 @@ export default function Nav({ activeSection, onSectionChange }) {
           
           <div style={styles.navItems}>
             {sections.map((section, index) => {
+              const baseDistance = getResponsiveValue(90, 110, 130, screenSize);
               const positions = [
-                { x: 130, y: 0 },    // Top right
-                { x: 0, y: 130 },    // Bottom center
-                { x: -130, y: 0 },   // Top left
-                { x: 0, y: -130 }    // Top center
+                { x: baseDistance, y: 0 },    // Top right
+                { x: 0, y: baseDistance },    // Bottom center
+                { x: -baseDistance, y: 0 },   // Top left
+                { x: 0, y: -baseDistance }    // Top center
               ];
               
               return (

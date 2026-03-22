@@ -43,19 +43,8 @@ export default function Hero() {
     lineHeight: 1.4
   };
 
-  const backgroundEffectStyles = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%)',
-    pointerEvents: 'none'
-  };
-
   return (
     <div style={heroStyles}>
-      <div style={backgroundEffectStyles}></div>
       <div style={contentStyles}>
         <h1 style={titleStyles}>
           Elias Portfolio

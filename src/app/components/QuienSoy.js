@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
+import DecryptedText from './DecryptedText';
 
 export default function QuienSoy({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,6 +18,13 @@ export default function QuienSoy({ onBack }) {
     console.log('Changing section to:', index);
     console.log('Current activeSection:', activeSection);
     setActiveSection(index);
+  };
+
+  const handleBack = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onBack && onBack();
+    }, 300);
   };
 
   const sections = [
@@ -60,7 +68,8 @@ export default function QuienSoy({ onBack }) {
       maxWidth: '1200px',
       padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
       alignItems: 'center',
-      width: '100%'
+      width: '100%',
+      marginTop: getResponsiveValue('96px', '108px', '116px', screenSize)
     },
     profileSection: {
       display: 'flex',
@@ -231,8 +240,8 @@ export default function QuienSoy({ onBack }) {
       opacity: 0.3
     },
     backButton: {
-      position: 'absolute',
-      top: getResponsiveValue('20px', '30px', '40px', screenSize),
+      position: 'fixed',
+      top: `calc(env(safe-area-inset-top, 0px) + ${getResponsiveValue('100px', '84px', '92px', screenSize)})`,
       right: getResponsiveValue('20px', '30px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -246,7 +255,8 @@ export default function QuienSoy({ onBack }) {
       fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
-      backdropFilter: 'blur(10px)'
+      backdropFilter: 'blur(10px)',
+      zIndex: 2202
     },
     floatingDots: {
       position: 'absolute',
@@ -262,7 +272,7 @@ export default function QuienSoy({ onBack }) {
       
       <button 
         style={styles.backButton}
-        onClick={() => onBack && onBack()}
+        onClick={handleBack}
       >
         ✕
       </button>
@@ -351,23 +361,86 @@ export default function QuienSoy({ onBack }) {
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
               >
-                {section.title}
+                <DecryptedText
+                  text={section.title}
+                  animateOn="hover"
+                  sequential
+                  revealDirection="start"
+                  speed={40}
+                  maxIterations={12}
+                  characters="ABCD0123!?¿"
+                  className="quien-soy-selector-revealed"
+                  encryptedClassName="quien-soy-selector-encrypted"
+                  style={{
+                    fontSize: 'inherit',
+                    fontWeight: 'inherit',
+                    letterSpacing: 'inherit'
+                  }}
+                />
               </button>
             ))}
           </div>
 
           <div style={styles.infoPanel}>
             <div style={styles.sectionTitle}>
-              {sections[activeSection].title}
+              <DecryptedText
+                key={activeSection}
+                text={sections[activeSection].title}
+                animateOn="inViewHover"
+                sequential
+                revealDirection="start"
+                speed={32}
+                maxIterations={14}
+                useOriginalCharsOnly={false}
+                characters="ABCDEFGHIJ0123456789!?¿"
+                className="quien-soy-title-revealed"
+                encryptedClassName="quien-soy-title-encrypted"
+              />
             </div>
             <div style={styles.sectionContent}>
-              {sections[activeSection].content}
+              <DecryptedText
+                key={`content-${activeSection}`}
+                text={sections[activeSection].content}
+                animateOn="inViewHover"
+                sequential
+                revealDirection="start"
+                speed={14}
+                useOriginalCharsOnly={false}
+                characters="ABCDEFGHIJKLMNÑ0123456789.,;:!?¿¡"
+                parentClassName="quien-soy-content-decrypt"
+                className="quien-soy-content-revealed"
+                encryptedClassName="quien-soy-content-encrypted"
+              />
             </div>
           </div>
         </div>
       </div>
 
       <style>{`
+        .quien-soy-title-revealed {
+          color: rgba(255, 255, 255, 0.95);
+          text-shadow: 0 0 14px rgba(255, 255, 255, 0.25);
+        }
+        .quien-soy-title-encrypted {
+          color: rgba(255, 255, 255, 0.28);
+        }
+        .quien-soy-selector-revealed {
+          color: inherit;
+        }
+        .quien-soy-selector-encrypted {
+          opacity: 0.5;
+        }
+        .quien-soy-content-revealed {
+          color: rgba(255, 255, 255, 0.88);
+        }
+        .quien-soy-content-encrypted {
+          color: rgba(255, 255, 255, 0.22);
+        }
+        .quien-soy-content-decrypt {
+          display: block;
+          width: 100%;
+        }
+
         .quienSoy-selector-button {
           cursor: pointer !important;
           pointer-events: auto !important;

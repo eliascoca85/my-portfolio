@@ -3,18 +3,35 @@
 import { useState, useEffect } from 'react';
 import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
-export default function Nav({ activeSection, onSectionChange }) {
+export default function Nav({
+  activeSection,
+  onSectionChange,
+  onRadarStateChange = () => {},
+  isAudioMuted = false,
+  onToggleMute = () => {},
+  isAudioActive = false
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const screenSize = useResponsive();
   
   const sections = ['Contacto', 'Habilidades', 'Portafolio', '¿Quién Soy?'];
 
+  useEffect(() => {
+    const sectionIndex = sections.indexOf(activeSection);
+    if (sectionIndex >= 0) {
+      setActiveIndex(sectionIndex);
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
+    setIsExpanded(isAudioActive);
+  }, [isAudioActive]);
+
   // Función para manejar el click en una sección
   const handleSectionClick = (section, index) => {
     setActiveIndex(index);
     onSectionChange(section);
-    setIsExpanded(false);
   };
 
   // Componente SVG - ¿Quién Soy? / Ojo retro futurista (optimizado)
@@ -305,6 +322,12 @@ export default function Nav({ activeSection, onSectionChange }) {
     };
   }, []);
 
+  const handleRadarToggle = () => {
+    const next = !isExpanded;
+    setIsExpanded(next);
+    onRadarStateChange(next);
+  };
+
   const styles = {
     futuristicNav: {
       position: 'fixed',
@@ -460,7 +483,8 @@ export default function Nav({ activeSection, onSectionChange }) {
     floatingElements: {
       position: 'absolute',
       width: '100%',
-      height: '100%'
+      height: '100%',
+      pointerEvents: 'none'
     },
     floatDot: {
       position: 'absolute',
@@ -498,9 +522,28 @@ export default function Nav({ activeSection, onSectionChange }) {
       borderRadius: '10px',
       padding: getResponsiveValue('10px', '12px', '15px', screenSize),
       backdropFilter: 'blur(10px)',
-      opacity: isExpanded ? 1 : 0,
+      opacity: 1,
       transition: 'all 0.5s ease',
-      transform: isExpanded ? 'translateY(0)' : 'translateY(-20px)'
+      transform: 'translateY(0)',
+      zIndex: 40
+    },
+    muteButton: {
+      position: 'absolute',
+      top: getResponsiveValue('95px', '110px', '130px', screenSize),
+      left: getResponsiveValue('20px', '30px', '40px', screenSize),
+      background: 'rgba(0, 0, 0, 0.9)',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      borderRadius: '10px',
+      color: 'rgba(255, 255, 255, 0.9)',
+      fontFamily: "'Courier New', 'Consolas', monospace",
+      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
+      letterSpacing: '1px',
+      textTransform: 'uppercase',
+      cursor: 'pointer',
+      padding: getResponsiveValue('7px 10px', '8px 12px', '9px 14px', screenSize),
+      backdropFilter: 'blur(10px)',
+      transition: 'background 0.2s ease, border-color 0.2s ease',
+      zIndex: 50
     },
     statusText: {
       color: 'rgba(255, 255, 255, 0.9)',
@@ -638,6 +681,24 @@ export default function Nav({ activeSection, onSectionChange }) {
             MENU: {isExpanded ? 'DETECTADO' : 'COLLAPSED'}
           </div>
         </div>
+
+        {isAudioActive && (
+          <button
+            type="button"
+            style={styles.muteButton}
+            onClick={onToggleMute}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.55)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'rgba(0, 0, 0, 0.9)';
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            }}
+          >
+            {isAudioMuted ? 'Activar Audio' : 'Mutear Audio'}
+          </button>
+        )}
         
         <div style={styles.floatingElements}>
           {[...Array(6)].map((_, i) => {
@@ -673,7 +734,7 @@ export default function Nav({ activeSection, onSectionChange }) {
           <div 
             style={styles.centralOrb}
             className="central-orb"
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={handleRadarToggle}
           >
             <div style={{
               width: '2px',

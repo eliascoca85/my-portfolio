@@ -6,13 +6,9 @@ import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
 
 export default function Contacto({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    mensaje: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const screenSize = useResponsive();
+  const jotformEmbedUrl = 'https://form.jotform.com/260796279290066?isIframeEmbed=1';
+  const defaultContactMessage = encodeURIComponent('hola, me gustaria una cotizacion');
 
   useEffect(() => {
     setIsVisible(true);
@@ -23,7 +19,7 @@ export default function Contacto({ onBack }) {
       icon: "📧",
       label: "EMAIL",
       value: "eliascoca85@gmail.com",
-      action: "mailto:eliascoca85@gmail.com"
+      action: `https://mail.google.com/mail/?view=cm&fs=1&to=eliascoca85@gmail.com&su=Cotizacion&body=${defaultContactMessage}`
     },
     {
       icon: "💼",
@@ -42,27 +38,15 @@ export default function Contacto({ onBack }) {
       icon: "📱",
       label: "WHATSAPP",
       value: "+591 68538548",
-      action: "https://wa.me/68538548"
+      action: `https://wa.me/59168538548?text=${defaultContactMessage}`
     }
   ];
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
+  const handleBack = () => {
+    setIsVisible(false);
     setTimeout(() => {
-      setIsSubmitting(false);
-      setFormData({ nombre: '', email: '', mensaje: '' });
-      alert('Mensaje enviado correctamente!');
-    }, 800);
+      onBack && onBack();
+    }, 300);
   };
 
   const styles = {
@@ -81,13 +65,14 @@ export default function Contacto({ onBack }) {
       opacity: isVisible ? 1 : 0,
       transition: 'opacity 0.5s ease',
       zIndex: 1000,
-      padding: getResponsiveValue('15px', '25px', '40px', screenSize),
+      padding: getResponsiveValue('8px', '25px', '40px', screenSize),
       overflowY: 'auto'
     },
     mainContent: {
       maxWidth: '1200px',
-      padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
-      width: '100%'
+      padding: getResponsiveValue('0 8px', '0 25px', '0 40px', screenSize),
+      width: '100%',
+      marginTop: getResponsiveValue('360px', '122px', '126px', screenSize)
     },
     header: {
       textAlign: 'center',
@@ -108,14 +93,14 @@ export default function Contacto({ onBack }) {
     contentGrid: {
       display: 'grid',
       gridTemplateColumns: screenSize.isMobile ? '1fr' : '1fr 1fr',
-      gap: getResponsiveValue('20px', '30px', '40px', screenSize),
+      gap: getResponsiveValue('12px', '30px', '40px', screenSize),
       alignItems: 'start'
     },
     contactMethods: {
       display: 'flex',
       flexDirection: 'column',
       gap: getResponsiveValue('12px', '13px', '15px', screenSize),
-      order: screenSize.isMobile ? 2 : 1
+      order: screenSize.isMobile ? 1 : 1
     },
     methodCard: {
       background: 'rgba(0, 0, 0, 0.8)',
@@ -165,9 +150,12 @@ export default function Contacto({ onBack }) {
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '15px',
-      padding: getResponsiveValue('20px', '25px', '30px', screenSize),
+      padding: getResponsiveValue('12px', '25px', '30px', screenSize),
       backdropFilter: 'blur(10px)',
-      order: screenSize.isMobile ? 1 : 2
+      order: screenSize.isMobile ? 2 : 2,
+      width: screenSize.isMobile ? '100%' : '92%',
+      maxWidth: screenSize.isMobile ? '100%' : '560px',
+      justifySelf: screenSize.isMobile ? 'stretch' : 'center'
     },
     formTitle: {
       fontSize: getResponsiveValue('16px', '17px', '18px', screenSize),
@@ -176,59 +164,26 @@ export default function Contacto({ onBack }) {
       marginBottom: getResponsiveValue('20px', '22px', '25px', screenSize),
       textAlign: 'center'
     },
-    formGroup: {
-      marginBottom: getResponsiveValue('15px', '17px', '20px', screenSize)
-    },
-    label: {
-      display: 'block',
-      fontSize: getResponsiveValue('10px', '11px', '12px', screenSize),
-      fontWeight: 'bold',
-      letterSpacing: '1px',
-      marginBottom: '8px',
-      color: 'rgba(255, 255, 255, 0.9)',
-      textTransform: 'uppercase'
-    },
-    input: {
+    jotformWrap: {
       width: '100%',
-      padding: getResponsiveValue('10px 12px', '11px 13px', '12px 15px', screenSize),
-      background: 'rgba(255, 255, 255, 0.1)',
-      border: '1px solid rgba(255, 255, 255, 0.3)',
-      borderRadius: '8px',
-      color: 'white',
-      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
-      fontFamily: "'Courier New', 'Consolas', monospace",
-      letterSpacing: '0.5px',
-      outline: 'none',
-      transition: 'border-color 0.2s ease'
+      border: '1px solid rgba(255, 255, 255, 0.22)',
+      borderRadius: '10px',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      background: 'rgba(255, 255, 255, 0.02)',
+      maxHeight: getResponsiveValue('420px', '540px', '580px', screenSize),
+      scrollbarWidth: 'thin',
+      scrollbarColor: 'rgba(0, 255, 180, 0.65) rgba(255, 255, 255, 0.06)'
     },
-    textarea: {
-      minHeight: getResponsiveValue('80px', '90px', '100px', screenSize),
-      resize: 'vertical'
-    },
-    submitButton: {
+    jotformFrame: {
       width: '100%',
-      padding: getResponsiveValue('12px', '13px', '15px', screenSize),
-      background: 'rgba(255, 255, 255, 0.1)',
-      border: '1px solid rgba(255, 255, 255, 0.3)',
-      borderRadius: '8px',
-      color: 'white',
-      fontSize: getResponsiveValue('12px', '13px', '14px', screenSize),
-      fontWeight: 'bold',
-      letterSpacing: getResponsiveValue('1.5px', '1.8px', '2px', screenSize),
-      textTransform: 'uppercase',
-      cursor: 'pointer',
-      transition: 'background 0.2s ease',
-      fontFamily: "'Courier New', 'Consolas', monospace"
-    },
-    submitButtonDisabled: {
-      background: 'rgba(255, 255, 255, 0.05)',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
-      color: 'rgba(255, 255, 255, 0.3)',
-      cursor: 'not-allowed'
+      height: getResponsiveValue('880px', '980px', '1040px', screenSize),
+      border: '0',
+      display: 'block'
     },
     backButton: {
-      position: 'absolute',
-      top: getResponsiveValue('15px', '25px', '40px', screenSize),
+      position: 'fixed',
+      top: `calc(env(safe-area-inset-top, 0px) + ${getResponsiveValue('100px', '84px', '92px', screenSize)})`,
       right: getResponsiveValue('15px', '25px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -242,7 +197,8 @@ export default function Contacto({ onBack }) {
       fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
-      backdropFilter: 'blur(10px)'
+      backdropFilter: 'blur(10px)',
+      zIndex: 2202
     }
   };
 
@@ -251,7 +207,7 @@ export default function Contacto({ onBack }) {
       {/* Botón de regreso */}
       <button 
         style={styles.backButton}
-        onClick={() => onBack && onBack()}
+        onClick={handleBack}
         onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
         onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
       >
@@ -301,83 +257,46 @@ export default function Contacto({ onBack }) {
             ))}
           </div>
 
-          <form style={styles.contactForm} onSubmit={handleSubmit}>
+          <div style={styles.contactForm}>
             <h3 style={styles.formTitle}>Enviar Mensaje</h3>
-            
-            <div style={styles.formGroup}>
-              <label style={styles.label} htmlFor="nombre">
-                Nombre
-              </label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
-                style={styles.input}
-                required
-                placeholder="Tu nombre"
-                onFocus={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.5)'}
-                onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)'}
+
+            <div style={styles.jotformWrap} className="jotform-scroll-shell">
+              <iframe
+                title="Formulario de contacto Jotform"
+                src={jotformEmbedUrl}
+                style={styles.jotformFrame}
+                allow="geolocation; microphone; camera; fullscreen"
               />
             </div>
 
-            <div style={styles.formGroup}>
-              <label style={styles.label} htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                style={styles.input}
-                required
-                placeholder="tu@email.com"
-                onFocus={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.5)'}
-                onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)'}
-              />
-            </div>
-
-            <div style={styles.formGroup}>
-              <label style={styles.label} htmlFor="mensaje">
-                Mensaje
-              </label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                value={formData.mensaje}
-                onChange={handleInputChange}
-                style={{...styles.input, ...styles.textarea}}
-                required
-                placeholder="Tu mensaje aquí..."
-                onFocus={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.5)'}
-                onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.3)'}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              style={{
-                ...styles.submitButton,
-                ...(isSubmitting ? styles.submitButtonDisabled : {})
-              }}
-              onMouseEnter={(e) => !isSubmitting && (e.target.style.background = 'rgba(255, 255, 255, 0.2)')}
-              onMouseLeave={(e) => !isSubmitting && (e.target.style.background = 'rgba(255, 255, 255, 0.1)')}
-            >
-              {isSubmitting ? 'ENVIANDO...' : 'ENVIAR MENSAJE'}
-            </button>
-          </form>
+          </div>
         </div>
       </div>
 
       <style>{`
-        input::placeholder,
-        textarea::placeholder {
-          color: rgba(255, 255, 255, 0.4);
-          font-family: 'Courier New', 'Consolas', monospace;
+        .jotform-scroll-shell::-webkit-scrollbar {
+          width: 9px;
+        }
+
+        .jotform-scroll-shell::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.06);
+          border-radius: 999px;
+        }
+
+        .jotform-scroll-shell::-webkit-scrollbar-thumb {
+          border-radius: 999px;
+          border: 2px solid rgba(0, 0, 0, 0.65);
+          background: linear-gradient(
+            180deg,
+            rgba(0, 255, 180, 0.85) 0%,
+            rgba(0, 190, 255, 0.55) 75%,
+            rgba(0, 255, 180, 0.35) 100%
+          );
+          box-shadow: 0 0 10px rgba(0, 255, 180, 0.18);
+        }
+
+        .jotform-scroll-shell::-webkit-scrollbar-thumb:hover {
+          box-shadow: 0 0 14px rgba(0, 255, 180, 0.28);
         }
       `}</style>
     </div>

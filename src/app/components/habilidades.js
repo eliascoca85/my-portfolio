@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useResponsive, getResponsiveValue } from '../hooks/useResponsive';
+import DecryptedText from './DecryptedText';
 
 export default function Habilidades({ onBack }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,9 +28,9 @@ export default function Habilidades({ onBack }) {
       icon: "/images/node.svg",
       skills: [
         { name: "Node.js", icon: "/images/node.svg" },
-        { name: "Python", icon: "/images/python.svg" },
-        { name: "APIs REST", icon: "/images/javascript.svg" },
-        { name: "PostgreSQL", icon: "/images/postgresql.svg" }
+        { name: "PHP", icon: "/images/php.svg" },
+        { name: "Dart", icon: "/images/dart.svg" },
+        { name: "Laravel", icon: "/images/laravel.svg" }
       ]
     },
     {
@@ -37,12 +38,19 @@ export default function Habilidades({ onBack }) {
       icon: "/images/git.svg",
       skills: [
         { name: "Git/GitHub", icon: "/images/git.svg" },
+        { name: "cPanel", icon: "/images/cP.svg" },
         { name: "Figma", icon: "/images/figma.svg" },
-        { name: "Tailwind CSS", icon: "/images/tailwindcss.svg" },
         { name: "WordPress", icon: "/images/wordpress.svg" }
       ]
     }
   ];
+
+  const handleBack = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onBack && onBack();
+    }, 300);
+  };
 
   const styles = {
     container: {
@@ -66,7 +74,8 @@ export default function Habilidades({ onBack }) {
     mainContent: {
       maxWidth: '1200px',
       padding: getResponsiveValue('0 15px', '0 25px', '0 40px', screenSize),
-      width: '100%'
+      width: '100%',
+      marginTop: getResponsiveValue('170px', '108px', '116px', screenSize)
     },
     header: {
       textAlign: 'center',
@@ -86,17 +95,24 @@ export default function Habilidades({ onBack }) {
     },
     categoriesContainer: {
       display: 'grid',
-      gridTemplateColumns: screenSize.isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
+      gridTemplateColumns: screenSize.isMobile
+        ? '1fr'
+        : screenSize.isTablet
+          ? 'repeat(2, 1fr)'
+          : 'repeat(3, 1fr)',
       gap: getResponsiveValue('15px', '20px', '25px', screenSize),
       marginTop: '30px'
     },
     categoryCard: {
+      display: 'flex',
+      flexDirection: 'column',
       background: 'rgba(0, 0, 0, 0.8)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '15px',
       padding: getResponsiveValue('15px', '20px', '25px', screenSize),
       backdropFilter: 'blur(10px)',
-      transition: 'background 0.2s ease'
+      minHeight: getResponsiveValue('210px', '230px', '250px', screenSize),
+      // Sin transiciones/animaciones en las tarjetas de habilidades
     },
     categoryHeader: {
       display: 'flex',
@@ -128,7 +144,8 @@ export default function Habilidades({ onBack }) {
     skillsList: {
       display: 'flex',
       flexDirection: 'column',
-      gap: getResponsiveValue('8px', '10px', '12px', screenSize)
+      gap: getResponsiveValue('8px', '10px', '12px', screenSize),
+      flex: 1
     },
     skillItem: {
       display: 'flex',
@@ -149,8 +166,8 @@ export default function Habilidades({ onBack }) {
       color: 'rgba(255, 255, 255, 0.9)'
     },
     backButton: {
-      position: 'absolute',
-      top: getResponsiveValue('15px', '25px', '40px', screenSize),
+      position: 'fixed',
+      top: `calc(env(safe-area-inset-top, 0px) + ${getResponsiveValue('100px', '84px', '92px', screenSize)})`,
       right: getResponsiveValue('15px', '25px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -164,7 +181,8 @@ export default function Habilidades({ onBack }) {
       fontSize: getResponsiveValue('16px', '18px', '20px', screenSize),
       color: 'white',
       transition: 'background 0.2s ease',
-      backdropFilter: 'blur(10px)'
+      backdropFilter: 'blur(10px)',
+      zIndex: 2202
     }
   };
 
@@ -173,7 +191,7 @@ export default function Habilidades({ onBack }) {
       {/* Botón de regreso */}
       <button 
         style={styles.backButton}
-        onClick={() => onBack && onBack()}
+        onClick={handleBack}
         onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.2)'}
         onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
       >
@@ -182,7 +200,18 @@ export default function Habilidades({ onBack }) {
 
       <div style={styles.mainContent}>
         <div style={styles.header}>
-          <h1 style={styles.title}>Habilidades Técnicas</h1>
+          <h1 style={styles.title}>
+            <DecryptedText
+              text="Habilidades Técnicas"
+              animateOn="inViewHover"
+              sequential
+              revealDirection="start"
+              speed={35}
+              maxIterations={10}
+              className="habilidades-title-revealed"
+              encryptedClassName="habilidades-title-encrypted"
+            />
+          </h1>
           <p style={styles.subtitle}>Stack Tecnológico & Expertise</p>
         </div>
 
@@ -191,8 +220,6 @@ export default function Habilidades({ onBack }) {
             <div
               key={index}
               style={styles.categoryCard}
-              onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.05)'}
-              onMouseLeave={(e) => e.target.style.background = 'rgba(0, 0, 0, 0.8)'}
             >
               <div style={styles.categoryHeader}>
                 <div style={styles.categoryIcon}>
@@ -223,6 +250,15 @@ export default function Habilidades({ onBack }) {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .habilidades-title-revealed {
+          color: rgba(255, 255, 255, 0.95);
+        }
+        .habilidades-title-encrypted {
+          color: rgba(255, 255, 255, 0.22);
+        }
+      `}</style>
     </div>
   );
 }

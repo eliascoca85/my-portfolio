@@ -1,0 +1,22 @@
+﻿# npm audit report
+
+next  9.5.0 - 15.5.13
+Severity: critical
+Next.js Affected by Cache Key Confusion for Image Optimization API Routes - https://github.com/advisories/GHSA-g5qg-72qw-gw5v
+Next.js Content Injection Vulnerability for Image Optimization - https://github.com/advisories/GHSA-xv57-4mr9-wg8v
+Next.js Improper Middleware Redirect Handling Leads to SSRF - https://github.com/advisories/GHSA-4342-x723-ch2f
+Next.js is vulnerable to RCE in React flight protocol - https://github.com/advisories/GHSA-9qr9-h5gf-34mp
+Next Server Actions Source Code Exposure  - https://github.com/advisories/GHSA-w37m-7fhw-fmv9
+Next Vulnerable to Denial of Service with Server Components - https://github.com/advisories/GHSA-mwv6-3258-q52c
+Next.js self-hosted applications vulnerable to DoS via Image Optimizer remotePatterns configuration - https://github.com/advisories/GHSA-9g9p-9gw9-jx7f
+Next.js HTTP request deserialization can lead to DoS when using insecure React Server Components - https://github.com/advisories/GHSA-h25m-26qc-wcjf
+Next.js: HTTP request smuggling in rewrites - https://github.com/advisories/GHSA-ggv3-7p47-pfv8
+Next.js: Unbounded next/image disk cache growth can exhaust storage - https://github.com/advisories/GHSA-3x4c-7xq6-9pq8
+fix available via `npm audit fix --force`
+Will install next@15.5.14, which is outside the stated dependency range
+node_modules/next
+
+1 critical severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force

@@ -14,6 +14,7 @@ export default function Home() {
   const [isRadarAudioActive, setIsRadarAudioActive] = useState(false);
   const [isRadarAudioMuted, setIsRadarAudioMuted] = useState(false);
   const radarAudioRef = useRef(null);
+  const quickMenuRef = useRef(null);
   const screenSize = useResponsive();
   const sections = ['Contacto', 'Habilidades', 'Portafolio', '¿Quién Soy?'];
 
@@ -51,6 +52,34 @@ export default function Home() {
     }
   }, [isRadarAudioActive]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (!activeSection || !quickMenuRef.current) {
+      root.style.setProperty('--quick-menu-height', '0px');
+      return;
+    }
+
+    const updateMenuHeight = () => {
+      if (!quickMenuRef.current) {
+        return;
+      }
+      const rect = quickMenuRef.current.getBoundingClientRect();
+      root.style.setProperty('--quick-menu-height', `${Math.ceil(rect.height)}px`);
+    };
+
+    updateMenuHeight();
+
+    const resizeObserver = new ResizeObserver(updateMenuHeight);
+    resizeObserver.observe(quickMenuRef.current);
+    window.addEventListener('resize', updateMenuHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateMenuHeight);
+    };
+  }, [activeSection, screenSize.isMobile, isRadarAudioActive]);
+
   const renderActiveSection = () => {
     switch (activeSection) {
       case 'Contacto':
@@ -82,6 +111,7 @@ export default function Home() {
 
       {activeSection && (
         <div
+          ref={quickMenuRef}
           style={{
             position: 'fixed',
             top: screenSize.isMobile

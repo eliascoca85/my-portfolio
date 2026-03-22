@@ -58,21 +58,23 @@ export default function Contacto({ onBack }) {
       height: '100vh',
       background: 'radial-gradient(circle at center, #1a1a1a 0%, #000000 70%)',
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
       fontFamily: "'Courier New', 'Consolas', monospace",
       color: 'white',
       opacity: isVisible ? 1 : 0,
       transition: 'opacity 0.5s ease',
       zIndex: 1000,
-      padding: getResponsiveValue('8px', '25px', '40px', screenSize),
+      padding: `calc(env(safe-area-inset-top, 0px) + var(--quick-menu-height, 0px) + ${getResponsiveValue('16px', '18px', '22px', screenSize)}) ${getResponsiveValue('8px', '25px', '40px', screenSize)} ${getResponsiveValue('8px', '25px', '40px', screenSize)}`,
       overflowY: 'auto'
     },
     mainContent: {
       maxWidth: '1200px',
       padding: getResponsiveValue('0 8px', '0 25px', '0 40px', screenSize),
       width: '100%',
-      marginTop: getResponsiveValue('360px', '122px', '126px', screenSize)
+      marginTop: 0,
+      marginLeft: 'auto',
+      marginRight: 'auto'
     },
     header: {
       textAlign: 'center',
@@ -183,7 +185,7 @@ export default function Contacto({ onBack }) {
     },
     backButton: {
       position: 'fixed',
-      top: `calc(env(safe-area-inset-top, 0px) + ${getResponsiveValue('100px', '84px', '92px', screenSize)})`,
+      top: `calc(env(safe-area-inset-top, 0px) + var(--quick-menu-height, 0px) + ${getResponsiveValue('8px', '10px', '12px', screenSize)})`,
       right: getResponsiveValue('15px', '25px', '40px', screenSize),
       background: 'rgba(255, 255, 255, 0.1)',
       border: '1px solid rgba(255, 255, 255, 0.3)',
